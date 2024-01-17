@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load ratings %}
+{% load bootstrap_icons %}
+
+{% block title %}
+   Detail
+{% endblock title %}
+
+{% block header %}
+<h1 align="center">Book Detail</h1>
+{% endblock header %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="{% static book.pic_path %}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">{{ book.name }}</h5>
+                <p class="card-text">Posted by: {{ book.username }}</p>
+                <p class="card-text">on: {{ book.publishdate }}</p>
+                <p class="card-text"><small class="text-body-secondary">${{ book.price }}</small></p>
+                {% ratings book %}
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <h2 align="center">Comments</h2>
+    </div>
+
+    <div class="row g-0">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Add a Comment</h5>
+                        </div>
+                        <div class="card-body">
+                            <form align="center" method="post" action="{% url 'add_comment' book.id %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <textarea class="form-control" name="text" rows="3" placeholder="Add a comment"></textarea>
+                                </div>
+                                <button type="submit" value="Submit Comment" class="btn btn-primary">Submit Comment</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    {% if comments %}
+                        <div class="card">
+                            <div class="card-header bg-secondary text-white">
+                                <h5 class="mb-0">Comments</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="list-group">
+                                    {% for comment in comments %}
+                                        <div class="list-group-item">
+                                            <h6 class="mb-1">{{ comment.user.username }}</h6>
+                                            <p class="mb-1">{{ comment.text }}</p>
+                                            <small>{{ comment.created_at }}</small>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

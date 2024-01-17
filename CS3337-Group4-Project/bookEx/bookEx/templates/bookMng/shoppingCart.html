@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+   Shopping Cart
+{% endblock title %}
+
+{% block header %}
+
+<h1 align="center">Shopping Cart</h1>
+
+{% endblock header %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Book Name</th>
+                <th scope="col">Book Price</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+                <tr>
+                    <td>{{ book.name }}</td>
+                    <td>${{ book.price }}</td>
+                    <td>
+                        <a href="deletefromcart/{{ book.id }}" class="btn btn-danger btn-sm">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr class="font-weight-bold">
+                <td>Total Price</td>
+                <td>${{ total_price }}</td>
+                <td>
+                    <a href="purchasecart/" class="btn btn-success">
+                        Purchase
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}

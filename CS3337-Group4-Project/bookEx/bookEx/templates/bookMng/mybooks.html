@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load ratings %}
+{% load bootstrap_icons %}
+
+{% block title %}
+   My Books
+{% endblock title %}
+
+{% block header %}
+
+<h1 align="center">My Books</h1>
+
+{% endblock header %}
+
+{% block content %}
+
+{% for book in books %}
+
+<div class="card mx-2" style="width: 18rem;">
+  <img src="{% static book.pic_path %}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title"><a href="book_detail/{{ book.id }}">
+        <h5>{{ book.name }}</h5>
+        </a>
+        <a href="book_delete/{{ book.id }}">
+            <img align="right" src="{% static 'delete_icon.jpg' %}" height="30" width="30" alt="" />
+        </a>
+    </h5>
+    <p class="card-text">${{ book.price }}</p>
+    <div class="card-text">
+      <div class="text-center">{% ratings book %}</div>
+      <form action="{% url 'favorite_book' book.id %}" method="post">
+            {% csrf_token %}
+
+            {% if book.is_favorite %}
+            <button style="font-size: 24px; color: gold; border: none; background: none; cursor: pointer;"
+                    type="submit" class="btn btn-primary">★
+                <a style="font-size: 18px;">Unfavorite</a>
+            </button>
+            {% else %}
+            <button style="font-size: 24px; color: gray; border: none; background: none; cursor: pointer;"
+                    type="submit" class="btn btn-primary">★
+                <a style="font-size: 18px;">Favorite</a>
+            </button>
+            {% endif %}
+        </form>
+    </div>
+  </div>
+</div>
+
+{% endfor %}
+
+{% endblock content %}
